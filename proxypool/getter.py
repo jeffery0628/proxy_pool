@@ -7,11 +7,9 @@ class Getter():
         self.cfg = cfg
         self.mysql_db = Mysql_DB(cfg)
         self.crawler = Crawler(cfg)
-    
+
+    # 判断是否达到了代理池限制
     def is_over_threshold(self):
-        """
-        判断是否达到了代理池限制
-        """
         pool_upper_threshold = int(self.cfg.get('proxy-setting','pool_upper_threshold'))
         if self.mysql_db.count() >= pool_upper_threshold:
             return True

@@ -46,13 +46,10 @@ class Crawler(object, metaclass=ProxyMetaclass):
                         proxy = '%s://%s:%s' % (scheme, ip, port)
                         yield proxy,ip,port,scheme
 
-
+    # 获取代理66
     def crawl_daili66(self, page_count=4):
-        """
-        获取代理66
-        :param page_count: 页码
-        :return: 代理
-        """
+
+
         url = self.cfg.get('daili-66','url')
         page_num = int(self.cfg.get('daili-66','page_num'))
         for page in range(1,page_num):
@@ -114,26 +111,6 @@ class Crawler(object, metaclass=ProxyMetaclass):
                         proxy = '%s://%s:%s' % (scheme, ip, port)
                         yield proxy,ip,port,scheme
 
-
-    # def crawl_xicidaili(self):
-    #     types = self.cfg.get('xici', 'types').lstrip('[').rstrip(']').split(',')
-    #     page_num = int(self.cfg.get('xici', 'page_num'))
-    #     url = self.cfg.get('xici', 'url')
-    #
-    #     for type in types:
-    #         for page in range(1,page_num):
-    #             proxy_list_url = url.format(type,page)
-    #             response_text = get_page(proxy_list_url)
-    #             if response_text:
-    #                 html = etree.HTML(response_text)
-    #                 trs = html.xpath('//table[@id="ip_list"]//tr')[1:]
-    #                 for tr in trs:
-    #                     ip = tr.xpath('./td[2]/text()')[0]
-    #                     port = tr.xpath('./td[3]/text()')[0]
-    #                     scheme = tr.xpath('./td[6]/text()')[0].lower()
-    #                     # 拼接代理
-    #                     proxy = '%s://%s:%s' % (scheme, ip, port)
-    #                     yield proxy
 
     def crawl_iphai(self):
         url = self.cfg.get('iphai','url')

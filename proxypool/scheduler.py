@@ -2,8 +2,6 @@ import time
 from multiprocessing import Process
 from proxypool.getter import Getter
 from proxypool.check_proxy import Checker
-from configparser import ConfigParser
-from proxypool.db_utils import Mysql_DB
 from proxypool.webapi import app
 
 class Scheduler():
@@ -13,9 +11,6 @@ class Scheduler():
 
 
     def schedule_checker(self):
-        """
-        定时测试代理
-        """
         checker_sleep_time = int(self.cfg.get('proxy-setting','check_sleep_time'))
         checker = Checker(self.cfg)
         while True:
@@ -24,9 +19,6 @@ class Scheduler():
             time.sleep(checker_sleep_time)
     
     def schedule_getter(self):
-        """
-        定时获取代理
-        """
         getter_sleep_time = int(self.cfg.get('proxy-setting', 'getter_sleep_time'))
         getter = Getter(self.cfg)
         while True:
@@ -35,9 +27,6 @@ class Scheduler():
             time.sleep(getter_sleep_time)
     
     def schedule_webapi(self):
-        """
-        开启API
-        """
         api_host = self.cfg.get('proxy-setting','api_host')
         api_port = self.cfg.get('proxy-setting','api_port')
         app.run(host=api_host, port=api_port)

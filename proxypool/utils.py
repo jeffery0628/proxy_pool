@@ -40,7 +40,7 @@ def get_page(url,selenium=False):
 
     try:
         response = requests.get(url, headers=headers)
-        time.sleep(3)
+        time.sleep(5)
         print('抓取成功', url, response.status_code)
         if response.status_code == 200:
             response.encoding = response.apparent_encoding
