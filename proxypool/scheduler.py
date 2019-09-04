@@ -34,7 +34,7 @@ class Scheduler():
             getter.run()
             time.sleep(getter_sleep_time)
     
-    def schedule_api(self):
+    def schedule_webapi(self):
         """
         开启API
         """
@@ -56,5 +56,5 @@ class Scheduler():
             getter_process.start()
         
         if web_api_enabled:
-            api_process = Process(target=self.schedule_api)
+            api_process = Process(target=self.schedule_webapi)
             api_process.start()

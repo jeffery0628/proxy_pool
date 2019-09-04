@@ -1,5 +1,5 @@
 from flask import Flask
-
+from configparser import ConfigParser
 from proxypool.db_utils import Mysql_DB
 
 __all__ = ['app']
@@ -8,7 +8,9 @@ app = Flask(__name__)
 
 
 def get_conn():
-    mysql_db = Mysql_DB()
+    cfg = ConfigParser()
+    cfg.read('../config.ini')
+    mysql_db = Mysql_DB(cfg)
     return mysql_db
 
 @app.route('/')
