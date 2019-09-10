@@ -95,7 +95,7 @@ class Mysql_DB():
         # 如果小于0 就进行删除
         if score < 0:
             del_sql = """delete from %s where ip like '%s' """ % (self.table_name, ip)
-            print(ip+'\t 分值为： '+score+' 从数据库中删除该ip')
+            print(ip+'\t 分值为： '+str(score)+' 从数据库中删除该ip')
             self.cursor.execute(del_sql)
             self.connect.commit()
             return 0
