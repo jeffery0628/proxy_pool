@@ -23,16 +23,16 @@ class Checker():
                 response = requests.get(val_url, proxies={scheme: proxy})
                 if response.status_code == 200:
                     cur_score = self.mysql_db.increase(ip)
-                    print(ip+'\t ip有效，原始分值为：'+str(score)+'\t + 5 分\t'+',现在分值为：'+str(cur_score))
+                    print('代理：'+ip+' ip有效，原始分值为：'+str(score)+'\t + 5 分\t'+',现在分值为：'+str(cur_score))
                 else:
                     # 无效代理减10分
                     cur_score = self.mysql_db.decrease(ip)
-                    print(ip+'\t ip失效，原始分值为：'+str(score)+'\t - 10 分\t'+',现在分值为：'+str(cur_score))
+                    print('代理：'+ip+' ip失效，原始分值为：'+str(score)+'\t - 10 分\t'+',现在分值为：'+str(cur_score))
             except Exception as e:
-                print(e.args)
+
                 # 无效代理减10分
                 cur_score = self.mysql_db.decrease(ip)
-                print(ip+'\t ip失效，原始分值为：'+str(score)+'\t - 10 分\t'+',现在分值为：'+str(cur_score))
+                print('代理：'+ip+' 失效，原始分值为：'+str(score)+'\t - 10 分\t'+',现在分值为：'+str(cur_score))
 
 
 # if __name__ == '__main__':

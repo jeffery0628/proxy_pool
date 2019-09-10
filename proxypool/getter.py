@@ -1,7 +1,9 @@
 from proxypool.crawler import Crawler
 import sys
 from proxypool.db_utils import Mysql_DB
+from configparser import ConfigParser
 import requests
+
 class Getter():
     def __init__(self,cfg):
         self.cfg = cfg
@@ -32,13 +34,12 @@ class Getter():
                         response = requests.get(val_url,proxies={scheme:proxy})
                         if response.status_code == 200:
                             self.mysql_db.insert_ip(ip,port,scheme,initial_score)
-                    except Exception as e:
-                        print(e.args)
+                    except:
+                        print('代理：'+proxy+" 连接超时")
 
 
-# if __name__ == '__main__':
-#     cfg = ConfigParser()
-#     cfg.read('../config.ini', encoding='utf-8')
-#     mysql_db = Mysql_DB(cfg)
-#     getter = Getter(mysql_db,cfg)
-#     getter.run()
+if __name__ == '__main__':
+    cfg = ConfigParser()
+    cfg.read('../config.ini', encoding='utf-8')
+    getter = Getter(cfg)
+    getter.run()

@@ -1,5 +1,6 @@
 import pymysql
 import random
+from configparser import ConfigParser
 
 class Mysql_DB():
     def __init__(self,cfg):
@@ -26,9 +27,10 @@ class Mysql_DB():
         # 操作的数据库的表名
         self.table_name = self.cfg.get('mysql_data', 'table_name')
 
+
     # 向数据库中插入一条ip，如果该ip存在，则不进行插入
     def insert_ip(self,ip,port,scheme,score):
-        query_sql = """select * from %s where ip like '%s'""" %(self.table_name,ip)
+        query_sql = """select * from %s where ip = '%s'""" %(self.table_name,ip)
         self.cursor.execute(query_sql)
         res = self.cursor.fetchall()
         if len(res) > 0:
@@ -56,7 +58,7 @@ class Mysql_DB():
 
     # 创建表
     def create_table(self):
-        create_table_sql = """create table %s (id int NOT NULL AUTO_INCREMENT,ip varchar(20),port varchar(10),scheme varchar(10),score int ,PRIMARY KEY (id))""" %self.table_name
+        create_table_sql = """create table if not exists %s (id int NOT NULL AUTO_INCREMENT,ip varchar(20),port varchar(10),scheme varchar(10),score int ,PRIMARY KEY (id))""" %self.table_name
         self.cursor.execute(create_table_sql)
         self.connect.commit()
 
@@ -111,4 +113,11 @@ class Mysql_DB():
     def get_one_proxy(self):
         proxy_list = self.get_proxies(50,100)
         return random.choice(proxy_list)
+
+
+if __name__ == '__main__':
+    cfg = ConfigParser()
+    cfg.read('../config.ini',encoding='utf-8')
+    mysql_db = Mysql_DB(cfg)
+    mysql_db.create_table()
 

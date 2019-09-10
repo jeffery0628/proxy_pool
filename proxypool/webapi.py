@@ -52,9 +52,11 @@ def get_counts():
     Get the count of proxies
     :return: 代理池总量
     """
-    mysql_db = get_conn()
-    return str(mysql_db.count())
-
+    try:
+        mysql_db = get_conn()
+        return str(mysql_db.count())
+    except:
+        return str('代理池中无代理ip')
 
 if __name__ == '__main__':
     app.run("127.0.0.1",5555)
