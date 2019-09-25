@@ -12,6 +12,8 @@ class Mysql_DB():
         mysql_port = self.cfg.get('mysql_data', 'port')
         user = self.cfg.get('mysql_data', 'user')
         passwd = self.cfg.get('mysql_data', 'passwd')
+        self.low_score = int(self.cfg.get('proxy-setting','low_score'))
+        self.heigh_score = int(self.cfg.get('proxy-setting','heigh_score'))
         # 连接mysql数据库
         self.connect = pymysql.Connection(
             host=host,
@@ -111,7 +113,7 @@ class Mysql_DB():
 
     # 随机获取一个可以使用的代理
     def get_one_proxy(self):
-        proxy_list = self.get_proxies(50,100)
+        proxy_list = self.get_proxies(self.low_score,self.heigh_score)
         return random.choice(proxy_list)
 
 

@@ -3,11 +3,12 @@ import sys
 from proxypool.db_utils import Mysql_DB
 from configparser import ConfigParser
 import requests
-
+import time
 class Getter():
     def __init__(self,cfg):
         self.cfg = cfg
         self.mysql_db = Mysql_DB(cfg)
+        # self.mysql_db.create_table()
         self.crawler = Crawler(cfg)
 
     # 判断是否达到了代理池限制
@@ -36,6 +37,7 @@ class Getter():
                             self.mysql_db.insert_ip(ip,port,scheme,initial_score)
                     except:
                         print('代理：'+proxy+" 连接超时")
+            time.sleep(1800)
 
 
 if __name__ == '__main__':

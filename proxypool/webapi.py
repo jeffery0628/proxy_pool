@@ -1,62 +1,1 @@
-from flask import Flask
-from configparser import ConfigParser
-from proxypool.db_utils import Mysql_DB
-
-__all__ = ['app']
-
-app = Flask(__name__)
-
-
-def get_conn():
-    cfg = ConfigParser()
-    cfg.read('../config.ini')
-    mysql_db = Mysql_DB(cfg)
-    return mysql_db
-
-@app.route('/')
-def index():
-    return '<h2>Welcome to Proxy Pool System</h2>'
-
-
-@app.route('/random')
-def get_proxy():
-    """
-    Get a proxy
-    :return: 随机代理
-    """
-    mysql_db = get_conn()
-    id,ip,port,scheme,score = mysql_db.get_one_proxy()
-    # 拼接代理
-    proxy = '%s://%s:%s' % (scheme, ip, port)
-    return proxy
-
-@app.route('/list')
-def get_proxy_list():
-    """
-    Get a proxy
-    :return: 随机代理
-    """
-    mysql_db = get_conn()
-    proxy_list = {}
-    res = mysql_db.get_proxies()
-    for index,(id,ip,port,scheme,score) in enumerate(res):
-
-        # 拼接代理
-        proxy = '%s://%s:%s' % (scheme, ip, port)
-        proxy_list[index+1] = proxy
-    return proxy_list
-
-@app.route('/count')
-def get_counts():
-    """
-    Get the count of proxies
-    :return: 代理池总量
-    """
-    try:
-        mysql_db = get_conn()
-        return str(mysql_db.count())
-    except:
-        return str('代理池中无代理ip')
-
-if __name__ == '__main__':
-    app.run("127.0.0.1",5555)
+from flask import Flaskfrom configparser import ConfigParserfrom proxypool.db_utils import Mysql_DB__all__ = ['app']app = Flask(__name__)def get_conn():    cfg = ConfigParser()    cfg.read('../config.ini',encoding='utf-8')    mysql_db = Mysql_DB(cfg)    return mysql_db@app.route('/')def index():    return '<h2>Welcome to Proxy Pool System</h2>'@app.route('/random')def get_proxy():    """    Get a proxy    :return: 随机代理    """    mysql_db = get_conn()    id,ip,port,scheme,score = mysql_db.get_one_proxy()    # 拼接代理    proxy = '%s://%s:%s' % (scheme, ip, port)    return proxy@app.route('/list')def get_proxy_list():    """    Get a proxy    :return: 随机代理    """    mysql_db = get_conn()    proxy_list = {}    res = mysql_db.get_proxies()    for index,(id,ip,port,scheme,score) in enumerate(res):        # 拼接代理        proxy = '%s://%s:%s' % (scheme, ip, port)        proxy_list[index+1] = proxy    return proxy_list@app.route('/count')def get_counts():    """    Get the count of proxies    :return: 代理池总量    """    try:        mysql_db = get_conn()        return str(mysql_db.count())    except Exception as e:        print(e.args)        return str('代理池中无代理ip')if __name__ == '__main__':    app.run("0.0.0.0",5000)
