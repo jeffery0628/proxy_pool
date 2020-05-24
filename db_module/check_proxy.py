@@ -2,7 +2,7 @@
 from configparser import ConfigParser
 import requests
 import time
-from proxypool.db_utils import Mysql_DB
+from db_module.db_utils import Mysql_DB
 
 class Checker():
     def __init__(self,cfg):
