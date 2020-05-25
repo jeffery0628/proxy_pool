@@ -1,4 +1,4 @@
-from crawler_module.crawler import Crawler
+from .crawler import Crawler
 import sys
 from db_module.db_utils import Mysql_DB
 from configparser import ConfigParser
